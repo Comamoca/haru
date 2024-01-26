@@ -1,0 +1,27 @@
+{
+  "imports": {
+    "nano-jsx": "https://esm.sh/nano-jsx@0.1.0/",
+    "log": "https://deno.land/std@0.204.0/log/mod.ts",
+    "assert": "https://deno.land/std@0.205.0/assert/mod.ts",
+    "path": "https://deno.land/std@0.205.0/path/mod.ts",
+    "fs": "https://deno.land/std@0.205.0/fs/mod.ts",
+    "fs/": "https://deno.land/std@0.205.0/fs/",
+    "postcss": "https://deno.land/x/postcss@8.4.16/mod.js",
+    "tailwind": "npm:tailwindcss@3.3.5",
+    "fmt": "https://deno.land/std@0.204.0/fmt/colors.ts"
+  },
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "https://esm.sh/nano-jsx@0.1.0/esm"
+    // "jsx": "react",
+    // "jsxImportSource": "https://esm.sh/nano-jsx@0.1.0/esm"
+    // "jsxFactory": "h",
+    // "jsxFragmentFactory": "Fragment"
+  }
+}
