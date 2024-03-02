@@ -1,10 +1,10 @@
 import { dirname, extname, join, relative } from "path";
 import { ensureDir, exists, WalkEntry } from "fs";
-import { renderSSR } from "nano-jsx";
+import { render } from "preact-render-to-string";
 import { bgCyan } from "fmt";
 import { config } from "./load_config.ts";
 
-export async function render(
+export async function renderAll(
   outdir: string,
   glob_array: string[],
   target_jsx: WalkEntry[],
@@ -38,21 +38,22 @@ export async function render(
         const filename = save_filename(jsx_entry);
         const parent = join(outdir, dirname(filename));
 
+        console.log(`filenale: ${filename}`);
+        console.log(`parent: ${parent}`);
+
         if (!(await exists(parent))) {
           await ensureDir(parent);
         }
 
-        // console.log(
-        //   join(relative(Deno.cwd(), jsx_entry.path), jsx_entry.name),
-        //   renderSSR(() => <Layout title="Site title">{mod.default}</Layout>),
-        // );
+        console.log(
+          join(relative(Deno.cwd(), jsx_entry.path), jsx_entry.name),
+          // render(<Layout title="Site title">{mod.default}</Layout>),
+        );
 
         // -------------------------------------------------
 
-        // <Layout title="Site title">{}</Layout>
-        const html = renderSSR(() => (
-          mod.default
-        ));
+        // <Layout title="Site title">{}</Layout>;
+        const html = render(mod.default);
 
         await Deno.writeTextFile(
           join(outdir, filename),

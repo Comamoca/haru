@@ -4,40 +4,36 @@ import { collect } from "../utils/collect.ts";
 import { assert } from "assert";
 import { resolve } from "path";
 
-const kv = await Deno.openKv();
-
-const result = await kv.get(["testing"]);
-const testdir = resolve("./test");
-
-if (result.value == null) {
-  await kv.set(["testing"], testdir);
-} else {
-  if (Deno.cwd() != testdir) Deno.chdir(resolve("./test"));
-}
-
-// console.log(Deno.cwd());
-kv.close();
-
 const target = ["**/index.jsx", "**/index.tsx"];
 
 Deno.test("testing collect", async () => {
   // move to test directory
 
   const expected = await collect(target);
-
-  const actual = [{
-    path: "/home/coma/ghq/github.com/coma/haru/test/testdata/index.tsx",
-    name: "index.tsx",
-    isFile: true,
-    isDirectory: false,
-    isSymlink: false,
-  }, {
-    path: "/home/coma/ghq/github.com/coma/haru/test/testdata/innner/index.jsx",
-    name: "index.jsx",
-    isFile: true,
-    isDirectory: false,
-    isSymlink: false,
-  }];
+  const actual = [
+    {
+      path: "/home/coma/.ghq/github.com/Comamoca/haru/index.tsx",
+      name: "index.tsx",
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+    },
+    {
+      path:
+        "/home/coma/.ghq/github.com/Comamoca/haru/test/testdata/innner/index.jsx",
+      name: "index.jsx",
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+    },
+    {
+      path: "/home/coma/.ghq/github.com/Comamoca/haru/test/testdata/index.tsx",
+      name: "index.tsx",
+      isFile: true,
+      isDirectory: false,
+      isSymlink: false,
+    },
+  ];
 
   // Promise.all returned array order is ramdom. So, I use findIndex
   const issame =
