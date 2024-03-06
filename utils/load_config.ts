@@ -6,7 +6,11 @@ import * as log from "log";
 const config_module = await (async function () {
   try {
     return await import(join(Deno.cwd(), "haru.config.ts"));
-  } catch {
+  } catch (e) {
+    log.critical(
+      log.critical(e),
+    );
+    Deno.exit(1);
   }
 })();
 
@@ -18,10 +22,31 @@ if (is.Nullish(config_module)) {
   Deno.exit(1);
 }
 
-export const config: Config = config_module.default;
+const default_embed_to_html = (html: string): string => {
+  return `<!DOCTYPE html>
+      <html lang="ja">
+      <body>
+	${html}
+      </body>
+    </html>`;
+};
+
+const load_config: Config = config_module.default;
+
+export const config: Config = {
+  output: load_config.output,
+  input: load_config.input,
+  embed_to_html: load_config.embed_to_html
+    ? load_config.embed_to_html
+    : default_embed_to_html,
+  tailwind: load_config.tailwind,
+};
 
 export interface Config {
   output: string;
   input: string;
+  pretty: boolean;
+  title: string;
   embed_to_html: (html: string) => string;
+  tailwind: Record<string, unknown>;
 }
