@@ -17,13 +17,19 @@ export default {
   embed_to_html: (html) => {
     return `<!DOCTYPE html>
       <html lang="ja">
-
       <head>
-      <link rel="stylesheet" href="css/tailwind.css">
+      <link rel="stylesheet" href="/css/tailwind.css">
+      <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
       </head>
       <body>
 	${html}
       </body>
-    </html>`;
+      <script src="/pagefind/pagefind-ui.js"></script>
+      <script>
+          window.addEventListener('DOMContentLoaded', (event) => {
+              new PagefindUI({ element: "#search", showSubResults: true });
+          });
+      </script>
+      </html>`;
   },
 } as Config;
