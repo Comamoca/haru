@@ -7,8 +7,6 @@ import { resolve } from "path";
 const target = ["**/index.jsx", "**/index.tsx"];
 
 Deno.test("testing collect", async () => {
-  // move to test directory
-
   const expected = await collect(target);
   const actual = [
     {
@@ -35,13 +33,11 @@ Deno.test("testing collect", async () => {
     },
   ];
 
-  // Promise.all returned array order is ramdom. So, I use findIndex
+  // Promise.all returned array order is ramdom. So, I use findIndex.
   const issame =
     (expected.findIndex((item) => item.path == actual[0].path) != -1) &&
     (expected.findIndex((item) => item.path == actual[1].path) != -1);
 
-  // expected has two items in actual
+  // expected has two items in actual.
   assert(issame);
 });
-
-// 1880
