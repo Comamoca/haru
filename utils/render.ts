@@ -1,4 +1,4 @@
-import { dirname, extname, join, relative } from "path";
+import { dirname, extname, join, relative, resolve } from "path";
 import { ensureDir, exists, WalkEntry } from "fs";
 import { DOMParser } from "npm:linkedom";
 import { render } from "preact-render-to-string";
@@ -17,7 +17,9 @@ export async function renderModule(modPath: string): Promise<string> {
     return render(mod.default());
   }
 
-  log.critical(`${modPath} Does not export default function.`);
+  log.critical(
+    `${relative(Deno.cwd(), modPath)} Does not export default function.`,
+  );
   Deno.exit(1);
 
   return "";
@@ -27,6 +29,7 @@ export async function renderAll(
   outdir: string,
   glob_array: string[],
   target_jsx: WalkEntry[],
+  isDev = false,
 ) {
   if (target_jsx.length == 0) {
     log.error("Rendering target is not found...");
@@ -69,9 +72,18 @@ export async function renderAll(
 
       const path = join(outdir, filename);
 
+      // Reload preview.
+      // if () {
+      // }
+
       // write link tag for tailwind css.
       if (!is.Nullish(config.tailwind)) {
         html = addCSSLinkTag(html, path);
+      }
+
+      // For develop build.
+      if (isDev) {
+        html = addLiveReloadScript(html);
       }
 
       // HTML pretty
@@ -86,6 +98,24 @@ export async function renderAll(
   );
 }
 
+const addLiveReloadScript = (html: string) => {
+  const document = new DOMParser().parseFromString(
+    html,
+    "text/html",
+  );
+
+  const scriptPath = new URL(join(dirname(import.meta.url), "reload.js"));
+  const reloadScript = Deno.readTextFileSync(scriptPath);
+
+  const script = document.createElement("script");
+
+  script.innerHTML = reloadScript;
+
+  document.body.insertAdjacentHTML("afterend", script.toString());
+
+  return document.toString();
+};
+
 const addCSSLinkTag = (html: string, htmlPath: string): string => {
   const document = new DOMParser().parseFromString(
     html,
@@ -95,7 +125,7 @@ const addCSSLinkTag = (html: string, htmlPath: string): string => {
   const link = document.createElement("link");
 
   link.rel = "stylesheet";
-  // TODO: set href
+
   log.debug(htmlPath);
   log.debug(relative(htmlPath, join(htmlPath, "css/tailwind.css")));
 
@@ -103,7 +133,7 @@ const addCSSLinkTag = (html: string, htmlPath: string): string => {
 
   document.head.insertAdjacentHTML("afterbegin", link.toString());
 
-  // add title tag
+  // Add title tag
   if (is.Nullish(!config.title)) {
     const title = document.createElement("title");
     title.innerText = config.title;
