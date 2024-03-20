@@ -48,5 +48,5 @@ export interface Config {
   pretty: boolean;
   title: string;
   embed_to_html: (html: string) => string;
-  tailwind: Record<string, unknown>;
+  tailwind?: Record<string, unknown>;
 }
