@@ -1,12 +1,12 @@
-import { dirname, extname, join, relative, resolve } from "path";
-import { ensureDir, exists, WalkEntry } from "fs";
+import { dirname, extname, join, relative, resolve } from "../deps.ts";
+import { ensureDir, exists, WalkEntry } from "../deps.ts";
 import { DOMParser } from "npm:linkedom";
-import { render } from "preact-render-to-string";
-import { bgCyan } from "fmt";
+import { render } from "../deps.ts";
+import { bgCyan } from "../deps.ts";
 import { config } from "./load_config.ts";
 import beautify from "npm:js-beautify";
-import { is } from "unknownutil";
-import * as log from "log";
+import { is } from "../deps.ts";
+import { critical, debug, error, info } from "../deps.ts";
 
 export async function renderModule(modPath: string): Promise<string> {
   // @ts-ignore
@@ -17,7 +17,7 @@ export async function renderModule(modPath: string): Promise<string> {
     return render(mod.default());
   }
 
-  log.critical(
+  critical(
     `${relative(Deno.cwd(), modPath)} Does not export default function.`,
   );
   Deno.exit(1);
@@ -32,7 +32,7 @@ export async function renderAll(
   isDev = false,
 ) {
   if (target_jsx.length == 0) {
-    log.error("Rendering target is not found...");
+    error("Rendering target is not found...");
     Deno.exit(0);
   }
 
@@ -42,7 +42,7 @@ export async function renderAll(
 
       // convert extname `.jsx` or `.tsx` to `.html`
       const save_filename = (entry: WalkEntry) => {
-        // console.log("to save ", relative(Deno.cwd(), entry.path));
+        // console."to save ", relative(Deno.cwd(), entry.path));
 
         let rel: string = relative(Deno.cwd(), entry.path);
 
@@ -56,13 +56,14 @@ export async function renderAll(
       const filename = save_filename(jsx_entry);
       const parent = join(outdir, dirname(filename));
 
-      log.debug(`filename: ${filename}`);
-      log.debug(`parent: ${parent}`);
+      debug(`filename: ${filename}`);
+      debug(`parent: ${parent}`);
 
       if (!(await exists(parent))) {
         await ensureDir(parent);
       }
 
+      // @ts-ignore
       const writeHTML = async (path: strng, html: string) => {
         await Deno.writeTextFile(
           path,
@@ -93,7 +94,7 @@ export async function renderAll(
 
       await writeHTML(path, html);
 
-      log.info(`Save to ${join(outdir, filename)}`);
+      info(`Save to ${join(outdir, filename)}`);
     }),
   );
 }
@@ -107,6 +108,7 @@ const addLiveReloadScript = (html: string) => {
   const scriptPath = new URL(join(dirname(import.meta.url), "reload.js"));
   const reloadScript = Deno.readTextFileSync(scriptPath);
 
+  // @ts-ignore
   const script = document.createElement("script");
 
   script.innerHTML = reloadScript;
@@ -122,22 +124,26 @@ const addCSSLinkTag = (html: string, htmlPath: string): string => {
     "text/html",
   );
 
+  // @ts-ignore
   const link = document.createElement("link");
 
   link.rel = "stylesheet";
 
-  log.debug(htmlPath);
-  log.debug(relative(htmlPath, join(htmlPath, "css/tailwind.css")));
+  debug(htmlPath);
+  debug(relative(htmlPath, join(htmlPath, "css/tailwind.css")));
 
   link.href = relative(htmlPath, join(htmlPath, "css/tailwind.css"));
 
+  // @ts-ignore
   document.head.insertAdjacentHTML("afterbegin", link.toString());
 
   // Add title tag
   if (is.Nullish(!config.title)) {
+    // @ts-ignore
     const title = document.createElement("title");
     title.innerText = config.title;
 
+    // @ts-ignore
     document.head.insertAdjacentHTML("afterbegin", title.toString());
   }
 

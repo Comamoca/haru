@@ -3,11 +3,11 @@ import markdownitAnchor from "npm:markdown-it-anchor";
 import Shiki from "npm:@shikijs/markdown-it";
 import { DOMParser } from "npm:linkedom";
 import { config } from "../../utils/load_config.ts";
-import { ensureDir } from "fs";
-import { dirname, join, parse, relative } from "path";
+import { ensureDir } from "../../deps.ts";
+import { dirname, join, parse, relative } from "../../deps.ts";
 import { render } from "https://deno.land/x/gfm@0.6.0/mod.ts";
 import { collect } from "../../kit/collect.ts";
-import { WalkEntry } from "fs/_util.ts";
+import { type WalkEntry } from "../../deps.ts";
 
 const embed_to_html = (html) => {
   return `<!DOCTYPE html>

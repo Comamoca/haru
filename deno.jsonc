@@ -1,19 +1,6 @@
 {
   "imports": {
-    "preact": "https://esm.sh/preact@10.19.6",
-    "preact/compat": "https://esm.sh/preact@10.19.6/compat",
-    "preact/jsx-runtime": "https://esm.sh/preact@10.19.6/jsx-runtime",
-    "preact-render-to-string": "npm:preact-render-to-string",
-    "unknownutil": "https://deno.land/x/unknownutil@v3.16.3/mod.ts",
-    "log": "https://deno.land/std@0.218.2/log/mod.ts",
-    "assert": "https://deno.land/std@0.205.0/assert/mod.ts",
-    "path": "https://deno.land/std@0.205.0/path/mod.ts",
-    "fs": "https://deno.land/std@0.205.0/fs/mod.ts",
-    "fs/": "https://deno.land/std@0.205.0/fs/",
-    "postcss": "https://deno.land/x/postcss@8.4.16/mod.js",
-    "tailwind": "npm:tailwindcss@3.3.5",
-    "fmt": "https://deno.land/std@0.204.0/fmt/colors.ts",
-    "cliffy": "https://deno.land/x/cliffy@v1.0.0-rc.3/command/mod.ts"
+   "preact/jsx-runtime": "https://esm.sh/preact@10.19.6/jsx-runtime",
   },
   "compilerOptions": {
     "jsx": "react-jsx",
@@ -22,5 +9,9 @@
   "tasks": {
     "test": "deno test --allow-read --allow-write",
     "pagefind": " deno run --allow-read --allow-env --allow-run npm:pagefind --site ./_dist/"
+  }
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "https://esm.sh/preact@10.19.7"
   }
 }

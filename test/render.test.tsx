@@ -1,7 +1,7 @@
 import { assertEquals } from "https://deno.land/std@0.218.2/assert/mod.ts";
 import { renderAll, renderModule } from "../utils/render.ts";
-import { collect } from "../utils/collect.ts";
-import { join } from "path";
+import { collect } from "../kit/collect.ts";
+import { join } from "../deps.ts";
 
 Deno.test("testing convert jsx to html", async () => {
   const actual =

@@ -2,7 +2,6 @@ import { config } from "./load_config.ts";
 import { datetime } from "https://deno.land/x/ptera@v1.0.2/mod.ts";
 import { parse } from "path";
 
-
 function startPreviewWorkers() {
   const serveWorker = new Worker(
     new URL("./worker/server.ts", import.meta.url).href,

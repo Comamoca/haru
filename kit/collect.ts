@@ -1,4 +1,4 @@
-import { expandGlob, WalkEntry } from "fs";
+import { expandGlob, WalkEntry } from "../deps.ts";
 
 export async function collect(glob: string[]): Promise<WalkEntry[]> {
   const files: WalkEntry[] = [];

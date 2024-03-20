@@ -1,8 +1,8 @@
-import postcss from "postcss";
-import tailwind from "tailwind";
-import { ensureDir } from "fs";
+import postcss from "https://deno.land/x/postcss@8.4.16/mod.js";
+import tailwind from "npm:tailwindcss@3.3.5";
+import { ensureDir } from "../deps.ts";
 import cssnano from "npm:cssnano";
-import { join } from "path";
+import { join } from "../deps.ts";
 import { config } from "../utils/load_config.ts";
 
 export async function buildTailwind() {

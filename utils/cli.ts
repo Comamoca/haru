@@ -1,14 +1,14 @@
 import { renderAll } from "./render.ts";
 import { collect } from "../kit/collect.ts";
 import { config } from "./load_config.ts";
-import { green } from "fmt";
-import * as log from "log";
+import { green } from "../deps.ts";
+import * as log from "https://deno.land/std@0.218.2/log/mod.ts";
 import { buildTailwind } from "../contrib/tailwind.ts";
 import { exists } from "https://deno.land/std@0.218.2/fs/mod.ts";
-import { join } from "path";
-import { ensureDir } from "fs";
-import { is } from "unknownutil";
-import { Command } from "cliffy";
+import { join } from "../deps.ts";
+import { ensureDir } from "../deps.ts";
+import { is } from "../deps.ts";
+import { Command } from "../deps.ts";
 
 const initLog = (level = "INFO") => {
   log.setup({

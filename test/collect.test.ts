@@ -1,8 +1,8 @@
 /// <reference lib="deno.unstable" />
-import { collect } from "../utils/collect.ts";
+import { collect } from "../kit/collect.ts";
 // import { join } from "https://deno.land/std@0.203.0/path/join.ts";
-import { assert } from "assert";
-import { resolve } from "path";
+import { assert } from "https://deno.land/std@0.220.1/assert/mod.ts";
+import { resolve } from "../deps.ts";
 
 const target = ["**/index.jsx", "**/index.tsx"];
 
