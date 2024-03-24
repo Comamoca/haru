@@ -5,9 +5,9 @@ export default {
   input: ".",
   embed_to_html: (html) => {
     return `<!DOCTYPE html>
+      <html lang="ja">
       <head>
       </head>
-      <html lang="ja">
       <body>
         <div class="flex justify-center">
 	${html}
